@@ -15,6 +15,7 @@ def create_batch_solver(
     discount_factor: float | None = None,
     n_batch_max: int = 256,
     num_threads: int = 4,
+    verbose: bool = True,
 ) -> AcadosOcpBatchSolver:
     """Create an AcadosOcpBatchSolver from an AcadosOcp object.
 
@@ -45,6 +46,7 @@ def create_batch_solver(
             num_threads_in_batch_solve=num_threads,
             build=False,
             generate=False,
+            verbose=verbose,
         )
     except FileNotFoundError:
         batch_solver = AcadosOcpBatchSolver(
@@ -53,6 +55,7 @@ def create_batch_solver(
             N_batch_init=n_batch_max,
             num_threads_in_batch_solve=num_threads,
             build=True,
+            verbose=verbose,
         )
 
     if discount_factor is not None:
@@ -71,6 +74,7 @@ def create_forward_backward_batch_solvers(
     discount_factor: float | None = None,
     n_batch_init: int = 256,
     num_threads: int = 4,
+    verbose: bool = True,
 ) -> tuple[AcadosOcpBatchSolver, AcadosOcpBatchSolver]:
     """Create a batch solver for solving the MPC problems (forward solver).
 
@@ -115,6 +119,7 @@ def create_forward_backward_batch_solvers(
         discount_factor=discount_factor,
         n_batch_max=n_batch_init,
         num_threads=num_threads,
+        verbose=verbose,
     )
 
     if not need_backward_solver:
@@ -136,6 +141,7 @@ def create_forward_backward_batch_solvers(
         discount_factor=discount_factor,
         n_batch_max=n_batch_init,
         num_threads=num_threads,
+        verbose=verbose,
     )
 
     return forward_batch_solver, backward_batch_solver
